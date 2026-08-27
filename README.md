@@ -13,21 +13,40 @@
 
 ## 📌 Project Overview
 
-This project implements a **two-tier application architecture on Microsoft Azure** with a dedicated application tier and database tier.
+This project implements a two-tier application architecture on Microsoft Azure, designed to demonstrate practical cloud networking, Linux administration, security, database connectivity, and application deployment.
 
-The objective was to build and validate a realistic cloud environment where:
+The environment was built from the ground up with the following architecture:
 
-- The **Application VM** handles web traffic and runs the Flask application.
-- The **Database VM** hosts MariaDB inside a separate private subnet.
-- **Azure VNet and subnets** provide network segmentation.
-- **Network Security Groups (NSGs)** control inbound traffic.
-- **Nginx** acts as the public-facing web server and reverse proxy.
-- **Flask** provides the application layer.
-- **MariaDB** stores application data.
-- **systemd** manages the Flask application as a persistent Linux service.
-- Private communication between application and database tiers is tested using ICMP and TCP connectivity.
+- **Azure Resource Group** was created to organize the project resources.
+- **A single Azure Virtual Network (VNet)** was created to provide the private network environment for the application and database workloads.
+- **The VNet was divided into two separate subnets:**
+  - Application Subnet — for the application/web server.
+  - Database Subnet — for the database server.
 
-The project focuses primarily on **DevOps, Azure networking, Linux administration, security, and deployment practices**.
+- **A Red Hat Enterprise Linux Application VM (app-vm)** was deployed inside the Application Subnet. This VM acts as the application tier and runs:
+  - Flask application
+  - Nginx web server and reverse proxy
+  - systemd service for persistent application management
+
+- **A separate Red Hat Enterprise Linux Database VM (db-vm)** was deployed inside the Database Subnet. This VM hosts MariaDB, which stores the application's data.
+
+- **Network Security Groups (NSGs)** were configured to control network traffic between the Internet, application tier, and database tier. HTTP access is permitted to the application while database access on TCP 3306 is restricted to the application side rather than being openly exposed to the Internet.
+
+- **Linux-level security controls** were also configured using firewalld and SELinux, providing an additional layer of host-level protection.
+
+- **MariaDB was installed and configured** on the DB VM. An application database, database user, table, and sample records were created and verified using SQL.
+
+- **The Flask application was configured** to connect to MariaDB through the DB VM's private IP address (10.0.2.4), demonstrating private communication between the two Azure subnets.
+
+- **Nginx was configured as a reverse proxy.** Instead of exposing Flask directly, users access Nginx over HTTP, and Nginx forwards requests internally to the Flask application.
+
+- **The Flask application was configured as a systemd service,** allowing it to run as a managed background service and automatically start after system reboots.
+
+- **Connectivity was validated** at multiple levels using ICMP (ping), TCP (nc), MariaDB client connections, SQL queries, local application testing, Nginx testing, and finally the publicly accessible application.
+
+### In One Sentence
+
+**Internet → Nginx → Flask on app-vm → private VNet connection → MariaDB on db-vm**
 
 ---
 
