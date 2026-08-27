@@ -33,7 +33,7 @@ The project focuses primarily on **DevOps, Azure networking, Linux administratio
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](architecture/12.architecture.png)
+![Architecture Diagram](architecture/12.Architecture.png)
 
 ### High-Level Traffic Flow
 
@@ -110,7 +110,7 @@ The Azure environment is organized inside a dedicated resource group.
 
 The project uses an Azure Virtual Network with separate application and database subnets.
 
-![VNet and Subnets](screenshots/02.vnet-subnets.png)
+![VNet and Subnets](screenshots/2.vnet-subnets.png)
 
 ### Design
 
@@ -136,7 +136,7 @@ This separation limits direct exposure of the database tier and creates a clear 
 
 The Application VM is deployed in the application/public subnet.
 
-![Application VM Networking](screenshots/03.app-vm-networking.png)
+![Application VM Networking](screenshots/3.app-vm-networking.png)
 
 **Role:**
 
@@ -153,7 +153,7 @@ The Application VM is deployed in the application/public subnet.
 
 The Database VM is deployed in the private subnet.
 
-![Database VM Networking](screenshots/04.db-vm-networking.png)
+![Database VM Networking](screenshots/4.db-vm-networking.png)
 
 **Private IP:** `10.0.2.4`
 
@@ -175,7 +175,7 @@ The DB VM does not have a directly assigned public IP. Outbound connectivity is 
 
 The public/application side uses an NSG to control permitted inbound traffic.
 
-![Public NSG](screenshots/05.public-nsg.png)
+![Public NSG](screenshots/5.public-nsg.png)
 
 The security design allows required application access while avoiding unnecessary exposure.
 
@@ -185,7 +185,7 @@ The security design allows required application access while avoiding unnecessar
 
 The database subnet uses a dedicated NSG.
 
-![Private NSG](screenshots/06.private-nsg.png)
+![Private NSG](screenshots/6.private-nsg.png)
 
 The important database rule is:
 
@@ -216,7 +216,7 @@ This follows the principle of allowing the database service only from the requir
 
 Linux networking was configured and validated on the Application VM.
 
-![Application VM Linux Networking](screenshots/07.app-vm-linux-networking.png)
+![Application VM Linux Networking](screenshots/7.app-vm-linux-networking.png)
 
 The private network path to the database was verified from the application server.
 
@@ -226,7 +226,7 @@ The private network path to the database was verified from the application serve
 
 The database server was configured and verified at the Linux level.
 
-![DB VM Linux Networking](screenshots/08.1.db-vm-networking-linux.png)
+![DB VM Linux Networking](screenshots/8.1.db-vm-networking-linux.png)
 
 ---
 
@@ -234,11 +234,11 @@ The database server was configured and verified at the Linux level.
 
 MariaDB was installed and configured on the DB VM.
 
-![MariaDB Configuration](screenshots/08.2-db-vm-mariadb.png)
+![MariaDB Configuration](screenshots/8.2-db-vm-mariadb.png)
 
 The database service was verified as running and listening on TCP port `3306`.
 
-![Database VM Verification](screenshots/08.3-db-vm.png)
+![Database VM Verification](screenshots/8.3-db-vm.png)
 
 ### Database
 
@@ -304,7 +304,7 @@ python3 app.py
 
 the application was configured as a Linux `systemd` service.
 
-![Flask systemd Service](screenshots/10.flask-systemd.png)
+![Flask systemd Service](screenshots/10.flask-systemd.png.png)
 
 The service is configured to start automatically with the VM.
 
@@ -343,7 +343,7 @@ Expected successful result:
 Connected to 10.0.2.4:3306
 ```
 
-![App to DB Connectivity](screenshots/09.app-to-db-connectivity.png)
+![App to DB Connectivity](screenshots/9.app-to-db-conectivity.png)
 
 This validates that the application tier can reach MariaDB through the intended private network path.
 
@@ -470,21 +470,21 @@ azure-2-tier-app/
 ├── README.md
 │
 ├── architecture/
-│   └── 12.architecture.png
+│   └── 12.Architecture.png
 │
 └── screenshots/
     ├── 01.resource-group.png
-    ├── 02.vnet-subnets.png
-    ├── 03.app-vm-networking.png
-    ├── 04.db-vm-networking.png
-    ├── 05.public-nsg.png
-    ├── 06.private-nsg.png
-    ├── 07.app-vm-linux-networking.png
-    ├── 08.1.db-vm-networking-linux.png
-    ├── 08.2-db-vm-mariadb.png
-    ├── 08.3-db-vm.png
-    ├── 09.app-to-db-connectivity.png
-    ├── 10.flask-systemd.png
+    ├── 2.vnet-subnets.png
+    ├── 3.app-vm-networking.png
+    ├── 4.db-vm-networking.png
+    ├── 5.public-nsg.png
+    ├── 6.private-nsg.png
+    ├── 7.app-vm-linux-networking.png
+    ├── 8.1.db-vm-networking-linux.png
+    ├── 8.2-db-vm-mariadb.png
+    ├── 8.3-db-vm.png
+    ├── 9.app-to-db-conectivity.png
+    ├── 10.flask-systemd.png.png
     ├── 11.final-application.png
     ├── 13.db-vm-no-public-ip.png
     └── 14.db-nsg-3306-restricted.png
